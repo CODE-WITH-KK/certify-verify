@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certificate Verified</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 3vw 0 3vw;
+      width: 100vw;
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
+    .header img {
+      height: 48px;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      padding: 0 2vw;
+      box-sizing: border-box;
+    }
+
+    .icon {
+      margin: 3rem auto 2rem auto;
+      width: 120px;
+      height: 120px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon svg {
+      width: 80px;
+      height: 80px;
+      display: block;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #111;
+      margin: 1.2rem 0 0.6rem 0;
+      letter-spacing: -1px;
+      text-align: center;
+    }
+    p {
+      font-size: 1.25rem;
+      color: #444;
+      margin: 0 0 1.5rem 0;
+      text-align: center;
+    }
+
+    canvas#confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @media (max-width: 900px) {
+      .header img {
+        height: 36px;
+        max-width: 120px;
+      }
+      .icon {
+        width: 90px;
+        height: 90px;
+      }
+      .icon svg {
+        width: 80px;
+        height: 80px;
+      }
+      .icon img {
+        width: 100px !important;
+        height: 100px !important;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 600px) {
+      .header {
+        padding: 1rem 2vw 0 2vw;
+      }
+      .header img {
+        height: 28px;
+        max-width: 90px;
+      }
+      .icon {
+        width: 60px;
+        height: 60px;
+      }
+      .icon svg {
+        width: 36px;
+        height: 36px;
+      }
+      .icon img {
+        width: 80px !important;
+        height: 80px !important;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <div class="header">
+    <img src="etcouncil.png" alt="ET Council" style="background:transparent;">
+    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+      <img src="kyureeus.png" alt="Kyureeus Logo">
+    </div>
+  </div>
+  <div class="container">
+    <div class="icon">
+      <img src="verified.png" alt="Verified" style="width: 80px; height: 80px;">
+    </div>
+    <h1>Certificate verified successfully!</h1>
+    <p>Congratulations on your achievement.</p>
+  </div>
+  <script>
+    // Confetti Effect (improved: more shapes, colors, and spread)
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confetti = [];
+    const shapes = ['circle', 'rect', 'arc'];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function createConfetti() {
+      confetti = [];
+      const colors = ['#FFC107', '#FF5722', '#4CAF50', '#00BCD4', '#E91E63', '#9C27B0', '#FFD600', '#00E676', '#FF1744', '#2979FF'];
+      for (let i = 0; i < 180; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 7 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          d: Math.random() * 100,
+          shape: shapes[Math.floor(Math.random() * shapes.length)],
+          tilt: Math.random() * 10 - 5,
+          tiltAngle: 0,
+          tiltAngleIncremental: (Math.random() * 0.07) + 0.05
+        });
+      }
+    }
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < confetti.length; i++) {
+        let c = confetti[i];
+        ctx.save();
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.translate(c.x, c.y);
+        ctx.rotate(c.tilt * Math.PI / 180);
+        if (c.shape === 'circle') {
+          ctx.arc(0, 0, c.r, 0, Math.PI * 2, false);
+          ctx.fill();
+        } else if (c.shape === 'rect') {
+          ctx.fillRect(-c.r/2, -c.r/2, c.r, c.r);
+        } else if (c.shape === 'arc') {
+          ctx.arc(0, 0, c.r, 0, Math.PI, false);
+          ctx.lineTo(0, 0);
+          ctx.closePath();
+          ctx.fill();
+        }
+        ctx.restore();
+        c.y += Math.cos(c.d) + 1 + c.r / 3;
+        c.x += Math.sin(c.d) * 0.8;
+        c.tiltAngle += c.tiltAngleIncremental;
+        c.tilt = Math.sin(c.tiltAngle) * 15;
+        if (c.y > canvas.height + 20) {
+          confetti[i].y = -10;
+          confetti[i].x = Math.random() * canvas.width;
+        }
+      }
+      requestAnimationFrame(drawConfetti);
+    }
+    createConfetti();
+    drawConfetti();
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createConfetti();
+    });
+  </script>
+</body>
+</html>
